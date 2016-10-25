@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Script-Type" content="test/javascript" />
+<title>無題ドキュメント</title>
+</head>
+
+<body>
+<!--<form name="form" method="post" action="/cgi-bin/JNISA/jnisa.cgi" onsubmit="calc_nenreihou_birthday()" target="down">-->
+<form name="form" method="post" action="/cgi-bin/JNISA/jnisa.cgi2" onsubmit=" return calc_nenreihou_birthday() || check_birthday()" target="down">
+<!--<form name="form" method="post" action="/cgi-bin/JNISA/jnisa.cgi2" onsubmit="return check_birthday()" target="down">-->
+  <div align="justify">
+    <!--##########################################-->
+	<div id="inputlength1">和暦・エラーメッセージ表示</div>
+    誕生日 
+	<input name="birthday" type="text" id="birthday" size="10" maxlength="8" value ="19971115" onkeyup="ShowLength( 'inputlength1' , value );">
+    誕生日(年齢法)
+	<input name="birthday_nenreihou" type="text" id="birthday_nenreihou" size="8" maxlength="8" readonly="readonly"><br>
+    <font size = 2>*誕生日(年齢法)は、自動で計算されるので入力不要です。</font><br>
+<!--####################################################################################-->
+<script type="text/javascript" src="./a.js"></script>
+<script type="text/javascript" src="./b.js"></script>
+<script type="text/javascript" src="./c.js"></script>
+<script type="text/javascript">
+function calc_nenreihou_birthday() { 
+<!--var birthday = document.getElementById("birthday").value;--> 
+var birthday = document.getElementsByName("birthday")[0].value; 
+<!--console.log(birthday);--> 
+myYear = birthday.substr(0,4); 
+myMonth = birthday.substr(4,2); 
+myDate = birthday.substr(6,2); 
+<!--console.log(myDate);--> 
+var date = new Date(myYear+'/'+myMonth+'/'+myDate); 
+date.setDate(date.getDate() - 1); 
+myYear_nenreihou = date.getFullYear(); 
+myMonth_nenreihou = date.getMonth() + 1; 
+myDate_nenreihou = date.getDate(); 
+if ( myMonth_nenreihou < 10 ) {
+	myMonth_nenreihou = '0' + myMonth_nenreihou;
+ } if ( myDate_nenreihou < 10 ) {
+	myDate_nenreihou = '0' + myDate_nenreihou;
+ } 
+form.birthday_nenreihou.value = myYear_nenreihou+""+myMonth_nenreihou+""+myDate_nenreihou;
+}
+</script>
+    <!--##########################################-->
+<input type="submit" value="送信" >
+  </div>
+</form>
+</body>
+</html>
